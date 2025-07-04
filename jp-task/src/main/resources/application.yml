@@ -25,6 +25,10 @@ management:
 server:
   port: 0
 
+hateoas:
+  server-url: http://localhost
+  server-port: 8080
+
 eureka:
   client:
     serviceUrl:
