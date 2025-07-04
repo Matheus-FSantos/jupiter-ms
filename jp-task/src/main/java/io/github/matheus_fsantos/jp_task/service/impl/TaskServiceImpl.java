@@ -1,7 +1,8 @@
 package io.github.matheus_fsantos.jp_task.service.impl;
 
 import io.github.matheus_fsantos.jp_task.client.user.UserFeignClient;
-import io.github.matheus_fsantos.jp_task.dto.RequestTaskDTO;
+import io.github.matheus_fsantos.jp_task.dto.PostRequestTaskDTO;
+import io.github.matheus_fsantos.jp_task.dto.PutRequestTaskDTO;
 import io.github.matheus_fsantos.jp_task.dto.ResponseTaskDTO;
 import io.github.matheus_fsantos.jp_task.dto.user.ResponseUserDTO;
 import io.github.matheus_fsantos.jp_task.exception.TaskNotFoundException;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TaskServiceImpl implements TaskService<ResponseTaskDTO, RequestTaskDTO, UUID> {
+public class TaskServiceImpl implements TaskService<ResponseTaskDTO, PostRequestTaskDTO, PutRequestTaskDTO, UUID> {
     private final TaskMapper taskMapper;
     private final TaskRepository taskRepository;
     private final UserFeignClient userFeignClient;
@@ -58,19 +59,30 @@ public class TaskServiceImpl implements TaskService<ResponseTaskDTO, RequestTask
     }
 
     @Override
-    public void save(RequestTaskDTO requestTaskDTO) {
-        TaskServiceImpl.logger.debug("🔎 Search user with id: {}", requestTaskDTO.ownerId());
+    public void save(PostRequestTaskDTO postRequestTaskDTO) {
+        TaskServiceImpl.logger.debug("🔎 Search user with id: {}", postRequestTaskDTO.ownerId());
         this.userFeignClient.findById(
-                UUID.fromString(requestTaskDTO.ownerId())
+                UUID.fromString(postRequestTaskDTO.ownerId())
         );
-        TaskServiceImpl.logger.debug("✅ User with ID {} validated via Feign Client.", requestTaskDTO.ownerId());
-        this.taskRepository.save(this.taskMapper.toTask(requestTaskDTO));
-        TaskServiceImpl.logger.info("☑️ New task created by user with id {}", requestTaskDTO.ownerId());
+        TaskServiceImpl.logger.debug("✅ User with ID {} validated via Feign Client.", postRequestTaskDTO.ownerId());
+        this.taskRepository.save(this.taskMapper.toTask(postRequestTaskDTO));
+        TaskServiceImpl.logger.debug("☑️ New task created by user with id {}", postRequestTaskDTO.ownerId());
     }
 
     @Override
-    public void update(RequestTaskDTO requestTaskDTO, UUID uuid) { }
+    public void update(PutRequestTaskDTO putRequestTaskDTO, UUID id) {
+        Task existingTask = this.taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        this.taskMapper.updateTaskFromDTO(existingTask, putRequestTaskDTO);
+        TaskServiceImpl.logger.debug("☑️ Task with id {} updated successfully", existingTask.getId());
+        this.taskRepository.save(existingTask);
+    }
 
     @Override
-    public void delete(UUID uuid) { }
+    public void delete(UUID id) {
+        if(!this.taskRepository.existsById(id))
+            throw new TaskNotFoundException(id);
+
+        this.taskRepository.deleteById(id);
+        TaskServiceImpl.logger.debug("☑️ Task with id {} deleted successfully", id);
+    }
 }

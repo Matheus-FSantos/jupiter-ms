@@ -1,6 +1,7 @@
 package io.github.matheus_fsantos.jp_task.controller;
 
-import io.github.matheus_fsantos.jp_task.dto.RequestTaskDTO;
+import io.github.matheus_fsantos.jp_task.dto.PostRequestTaskDTO;
+import io.github.matheus_fsantos.jp_task.dto.PutRequestTaskDTO;
 import io.github.matheus_fsantos.jp_task.dto.ResponseTaskDTO;
 import io.github.matheus_fsantos.jp_task.service.impl.TaskServiceImpl;
 import jakarta.validation.Valid;
@@ -29,20 +30,20 @@ public class TasksController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody RequestTaskDTO requestTaskDTO) {
-        this.taskServiceImpl.save(requestTaskDTO);
+    public ResponseEntity<Void> save(@Valid @RequestBody PostRequestTaskDTO postRequestTaskDTO) {
+        this.taskServiceImpl.save(postRequestTaskDTO);
         return ResponseEntity.status(201).build();
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody RequestTaskDTO requestTaskDTO, UUID uuid) {
-        this.taskServiceImpl.update(requestTaskDTO, uuid);
+    public ResponseEntity<Void> update(@Valid @RequestBody PutRequestTaskDTO putRequestTaskDTO, @PathVariable UUID id) {
+        this.taskServiceImpl.update(putRequestTaskDTO, id);
         return ResponseEntity.status(204).build();
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(UUID uuid) {
-        this.taskServiceImpl.delete(uuid);
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        this.taskServiceImpl.delete(id);
         return ResponseEntity.status(204).build();
     }
 
