@@ -6,6 +6,9 @@ public class TaskExceptionConstants {
     public static final String TASK_NOT_FOUND = "Task not found";
     public static final HttpStatus TASK_NOT_FOUND_STATUS = HttpStatus.NOT_FOUND;
 
+    public static final String USER_FEIGN_NOT_FOUND = "User not found";
+    public static final HttpStatus USER_FEIGN_NOT_FOUND_STATUS = HttpStatus.NOT_FOUND;
+
     public static final String TASK_ALREADY_EXISTS = "Task already exists";
     public static final HttpStatus TASK_ALREADY_EXISTS_STATUS = HttpStatus.CONFLICT;
 
