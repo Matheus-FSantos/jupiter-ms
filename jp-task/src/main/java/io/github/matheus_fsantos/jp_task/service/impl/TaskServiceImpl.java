@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService<ResponseTaskDTO, PostRequest
                     ResponseUserDTO ownerDTO = this.userFeignClient.findById(task.getOwnerId()).getBody();
                     TaskServiceImpl.logger.debug("✅ User with ID {} validated via Feign Client.", task.getOwnerId());
                     ResponseTaskDTO taskDTO = this.taskMapper.toResponseTaskDTO(task, ownerDTO);
-                    return this.hateoasLinkBuilder.addSelfLinkAlternative(taskDTO, taskDTO.getId());
+                    return this.hateoasLinkBuilder.addSelfLink(taskDTO, taskDTO.getId());
                 }).toList();
     }
 
@@ -55,7 +55,19 @@ public class TaskServiceImpl implements TaskService<ResponseTaskDTO, PostRequest
         ResponseUserDTO ownerDTO = this.userFeignClient.findById(task.getOwnerId()).getBody();
         TaskServiceImpl.logger.debug("✅ User with ID {} validated via Feign Client.", task.getOwnerId());
         ResponseTaskDTO taskDTO = this.taskMapper.toResponseTaskDTO(task, ownerDTO);
-        return this.hateoasLinkBuilder.addSelfLinkAlternative(taskDTO, taskDTO.getId());
+        return this.hateoasLinkBuilder.addSelfLink(taskDTO, taskDTO.getId());
+    }
+
+    @Override
+    public List<ResponseTaskDTO> findByOwnerId(UUID id) {
+        return this.taskRepository.findByOwnerId(id).stream()
+                .map(task -> {
+                    TaskServiceImpl.logger.debug("🔎 Search user with id: {}", task.getOwnerId());
+                    ResponseUserDTO ownerDTO = this.userFeignClient.findById(task.getOwnerId()).getBody();
+                    TaskServiceImpl.logger.debug("✅ User with ID {} validated via Feign Client.", task.getOwnerId());
+                    ResponseTaskDTO taskDTO = this.taskMapper.toResponseTaskDTO(task, ownerDTO);
+                    return this.hateoasLinkBuilder.addSelfLink(taskDTO, taskDTO.getId());
+                }).toList();
     }
 
     @Override

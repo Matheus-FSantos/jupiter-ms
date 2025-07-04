@@ -29,6 +29,11 @@ public class TasksController {
         return ResponseEntity.status(200).body(this.taskServiceImpl.findById(id));
     }
 
+    @GetMapping(path = "/owner/{id}")
+    public ResponseEntity<List<ResponseTaskDTO>> getTasksByOwnerId(@PathVariable UUID id) {
+        return ResponseEntity.status(200).body(this.taskServiceImpl.findByOwnerId(id));
+    }
+
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody PostRequestTaskDTO postRequestTaskDTO) {
         this.taskServiceImpl.save(postRequestTaskDTO);
