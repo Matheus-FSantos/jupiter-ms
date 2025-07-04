@@ -1,7 +1,7 @@
 package io.github.matheus_fsantos.jp_task.controller;
 
 import io.github.matheus_fsantos.jp_task.dto.RequestTaskDTO;
-import io.github.matheus_fsantos.jp_task.model.Task;
+import io.github.matheus_fsantos.jp_task.dto.ResponseTaskDTO;
 import io.github.matheus_fsantos.jp_task.service.impl.TaskServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ public class TasksController {
     private TaskServiceImpl taskServiceImpl;
 
     @GetMapping
-    public ResponseEntity<List<Task>> getTasks() {
+    public ResponseEntity<List<ResponseTaskDTO>> getTasks() {
         return ResponseEntity.status(200).body(this.taskServiceImpl.findAll());
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Task> getTask(UUID id) {
+    public ResponseEntity<ResponseTaskDTO> getTask(@PathVariable UUID id) {
         return ResponseEntity.status(200).body(this.taskServiceImpl.findById(id));
     }
 

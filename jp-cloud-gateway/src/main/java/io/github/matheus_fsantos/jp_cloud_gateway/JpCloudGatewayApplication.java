@@ -20,18 +20,8 @@ public class JpCloudGatewayApplication {
 		return builder
 				.routes()
 					.route(r -> r.path(("/api/users/**"))
-							.filters(f -> f
-											.addRequestHeader("X-Forwarded-Proto", "http")
-											.addRequestHeader("X-Forwarded-Host", "localhost:8080")
-											.addRequestHeader("X-Forwarded-Port", "8080")
-							)
 							.uri("lb://jp-users"))
 				.route(r -> r.path(("/api/tasks/**"))
-						.filters(f -> f
-								.addRequestHeader("X-Forwarded-Proto", "http")
-								.addRequestHeader("X-Forwarded-Host", "localhost:8080")
-								.addRequestHeader("X-Forwarded-Port", "8080")
-						)
 						.uri("lb://jp-tasks"))
 				.build();
 	}

@@ -1,4 +1,4 @@
-package io.github.matheus_fsantos.jp_users.utils;
+package io.github.matheus_fsantos.jp_task.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.Link;
@@ -16,8 +16,8 @@ public class HateoasLinkBuilder {
     @Value("${hateoas.server-port}")
     private String SERVER_PORT;
 
-    public <T extends RepresentationModel<T>> T addSelfLink(T dto, UUID id) {
-        Link link = Link.of(String.format("%s:%s/api/users/%s", SERVER_URL, SERVER_PORT, id)).withSelfRel();
+    public <T extends RepresentationModel<T>> T addSelfLinkAlternative(T dto, UUID id) {
+        Link link = Link.of(String.format("%s:%s/api/tasks/%s", SERVER_URL, SERVER_PORT, id)).withSelfRel();
         return dto.add(link);
     }
 }

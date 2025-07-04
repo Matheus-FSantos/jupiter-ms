@@ -24,7 +24,10 @@ management:
 
 server:
   port: 0
-  forward-headers-strategy: native
+
+hateoas:
+  server-url: http://localhost
+  server-port: 8080
 
 eureka:
   client:
