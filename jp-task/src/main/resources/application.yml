@@ -24,7 +24,6 @@ management:
 
 server:
   port: 0
-  forward-headers-strategy: native
 
 eureka:
   client:

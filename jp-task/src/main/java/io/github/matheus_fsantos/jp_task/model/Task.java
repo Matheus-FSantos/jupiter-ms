@@ -48,4 +48,15 @@ public class Task implements Serializable {
 
     private LocalDateTime startedAt;
     private LocalDateTime finishedAt;
+
+    public Task(UUID ownerId, String title, String description, Status status, Priority priority) {
+        this.ownerId = ownerId;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+
+    }
 }

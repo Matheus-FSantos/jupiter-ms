@@ -35,7 +35,7 @@ public class TaskSeederCommandLineRunner {
 
             requestTasksList.forEach(task -> {
                 try {
-                    this.taskService.save(task); /* not working */
+                    //this.taskService.save(task); /* not working */
                 } catch (Exception e) {
                     TaskSeederCommandLineRunner.logger.warn("Error saving task: {}", e.getMessage(), e);
                 }

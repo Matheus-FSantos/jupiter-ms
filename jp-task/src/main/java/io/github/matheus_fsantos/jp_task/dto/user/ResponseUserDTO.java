@@ -1,6 +1,10 @@
 package io.github.matheus_fsantos.jp_task.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.matheus_fsantos.jp_task.dto.ResponseTaskDTO;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -10,7 +14,8 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseUserDTO  implements Serializable {
+@Relation(collectionRelation = "users", itemRelation = "user")
+public class ResponseUserDTO  extends RepresentationModel<ResponseUserDTO> implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;
     private String id;
@@ -18,6 +23,7 @@ public class ResponseUserDTO  implements Serializable {
     private String password;
     private String role;
     private String firstName;
+    private String fullName;
     private String lastName;
     private String createdAt;
     private String updatedAt;
